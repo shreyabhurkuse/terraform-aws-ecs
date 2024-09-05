@@ -1,3 +1,5 @@
+data "aws_availability_zones" "available" {}
+
 # Create a VPC (Virtual Private Cloud)
 resource "aws_vpc" "medusa_vpc" {
   cidr_block           = "10.0.0.0/16"
@@ -9,7 +11,7 @@ resource "aws_vpc" "medusa_vpc" {
 resource "aws_subnet" "medusa_subnet" {
   vpc_id                  = aws_vpc.medusa_vpc.id
   cidr_block              = "10.0.0.0/24"  
-  availability_zone       = data.aws_availability_zones.available.names[0]  # Use the first availability zone
+  availability_zone       = data.aws_availability_zones.available.names[0]  
   map_public_ip_on_launch = true
 }
 
