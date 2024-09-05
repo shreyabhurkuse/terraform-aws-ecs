@@ -62,7 +62,7 @@ resource "aws_ecs_cluster" "medusa_cluster" {
 
 # IAM Role for ECS Task Execution
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "ecsTaskExecutionRole"
+  name = "ecsTaskExecutionRole-unique"
   assume_role_policy = jsonencode({
     "Version": "2012-10-17",
     "Statement": [
