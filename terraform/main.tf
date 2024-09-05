@@ -81,29 +81,31 @@ resource "aws_iam_role" "ecs_task_execution_role" {
   ]
 }
 
-# ECS Task Definition
+# ECS Task Defination
 resource "aws_ecs_task_definition" "medusa_task" {
   family                   = "medusa-task"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"  
   memory                   = "512"  
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
-
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn  # Execution role for ECS task
+  
   container_definitions    = jsonencode([
     {
       name      = "medusa-container"
-      image     = "medusajs/medusa"  
+      image     = "linuxserver/medusa:latest"  
       essential = true
       portMappings = [
         {
-          containerPort = 80
-          hostPort      = 80
+          containerPort = 9000
+          hostPort      = 9000
           protocol      = "tcp"
         }
       ]
     }
   ])
+  
+  task_role_arn      = aws_iam_role.ecs_task_execution_role.arn  # Task role for any AWS service interaction
 }
 
 # ECS Service
